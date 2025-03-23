@@ -39,6 +39,10 @@ func (ssn *Session) AddJobOrderFn(jof common_info.CompareFn) {
 	ssn.JobOrderFns = append(ssn.JobOrderFns, jof)
 }
 
+func (ssn *Session) PopJobOrderFn() {
+	ssn.JobOrderFns = ssn.JobOrderFns[:len(ssn.JobOrderFns)-1]
+}
+
 func (ssn *Session) AddTaskOrderFn(tof common_info.CompareFn) {
 	ssn.TaskOrderFns = append(ssn.TaskOrderFns, tof)
 }
@@ -53,6 +57,10 @@ func (ssn *Session) AddCanReclaimResourcesFn(crf api.CanReclaimResourcesFn) {
 
 func (ssn *Session) AddReclaimableFn(rf api.EvictableFn) {
 	ssn.ReclaimableFns = append(ssn.ReclaimableFns, rf)
+}
+
+func (ssn *Session) AddJobsComparatorByNodeStarvationFn(rf api.JobsComparatorByNodeStarvationFn) {
+	ssn.JobsComparatorByNodeStarvationFns = append(ssn.JobsComparatorByNodeStarvationFns, rf)
 }
 
 func (ssn *Session) AddOnJobSolutionStartFn(jssf api.OnJobSolutionStartFn) {
@@ -80,6 +88,17 @@ func (ssn *Session) Reclaimable(
 	}
 
 	return false
+}
+
+func (ssn *Session) JobsComparatorByNodeStarvation(
+	nodes map[string]*node_info.NodeInfo,
+	jobs map[common_info.PodGroupID]*podgroup_info.PodGroupInfo,
+) common_info.CompareFn {
+	for _, jof := range ssn.JobsComparatorByNodeStarvationFns {
+		return jof(nodes, jobs)
+	}
+
+	return nil
 }
 
 func (ssn *Session) OnJobSolutionStart() {

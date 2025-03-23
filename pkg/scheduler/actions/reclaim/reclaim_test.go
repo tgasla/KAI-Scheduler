@@ -2215,19 +2215,18 @@ func getTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 				},
 				JobExpectedResults: map[string]test_utils.TestExpectedResultBasic{
 					"q0_job0": {
-						NodeName:             "node0",
 						GPUsRequired:         2,
-						Status:               pod_status.Running,
+						Status:               pod_status.Releasing,
 						DontValidateGPUGroup: true,
 					},
 					"q0_job1": {
-						NodeName:             "node0",
+						NodeName:             "node1",
 						GPUsRequired:         1,
-						Status:               pod_status.Pipelined,
+						Status:               pod_status.Running,
 						DontValidateGPUGroup: true,
 					},
 					"q1_job0": {
-						NodeName:             "node1",
+						NodeName:             "node0",
 						GPUsRequired:         2,
 						Status:               pod_status.Pipelined,
 						DontValidateGPUGroup: true,
@@ -2315,19 +2314,18 @@ func getTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 				},
 				JobExpectedResults: map[string]test_utils.TestExpectedResultBasic{
 					"q0_job0": {
-						NodeName:             "node0",
 						GPUsRequired:         2,
-						Status:               pod_status.Running,
+						Status:               pod_status.Releasing,
 						DontValidateGPUGroup: true,
 					},
 					"q0_job1": {
-						NodeName:             "node0",
+						NodeName:             "node1",
 						GPUsRequired:         1,
-						Status:               pod_status.Pipelined,
+						Status:               pod_status.Running,
 						DontValidateGPUGroup: true,
 					},
 					"q1_job0": {
-						NodeName:             "node1",
+						NodeName:             "node0",
 						GPUsRequired:         2,
 						Status:               pod_status.Pipelined,
 						DontValidateGPUGroup: true,

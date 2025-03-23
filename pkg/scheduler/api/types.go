@@ -26,6 +26,9 @@ type CanReclaimResourcesFn func(*reclaimer_info.ReclaimerInfo) bool
 // EvictableFn is a function which determines if a reclaimer can reclaim a victim.
 type EvictableFn func(*reclaimer_info.ReclaimerInfo, map[common_info.QueueID][]*resource_info.Resource) bool
 
+// JobsComparatorByNodeStarvationFn is a function which compares two jobs by node starvation.
+type JobsComparatorByNodeStarvationFn func(map[string]*node_info.NodeInfo, map[common_info.PodGroupID]*podgroup_info.PodGroupInfo) common_info.CompareFn
+
 // QueueResource is a function which returns the resource of a queue.
 type QueueResource func(*queue_info.QueueInfo) *resource_info.ResourceRequirements
 

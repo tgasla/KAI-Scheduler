@@ -226,17 +226,6 @@ func getReclaimTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 							},
 						},
 					}, {
-						Name:                "running_job1",
-						RequiredGPUsPerTask: 2,
-						Priority:            constants.PriorityTrainNumber,
-						QueueName:           "queue1",
-						Tasks: []*tasks_fake.TestTaskBasic{
-							{
-								State:    pod_status.Running,
-								NodeName: "node1",
-							},
-						},
-					}, {
 						Name:                "running_job2",
 						RequiredGPUsPerTask: 1,
 						Priority:            constants.PriorityTrainNumber,
@@ -245,6 +234,17 @@ func getReclaimTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 							{
 								NodeName: "node0",
 								State:    pod_status.Running,
+							},
+						},
+					}, {
+						Name:                "running_job1",
+						RequiredGPUsPerTask: 2,
+						Priority:            constants.PriorityTrainNumber,
+						QueueName:           "queue1",
+						Tasks: []*tasks_fake.TestTaskBasic{
+							{
+								State:    pod_status.Running,
+								NodeName: "node1",
 							},
 						},
 					}, {
@@ -286,16 +286,17 @@ func getReclaimTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 						Status:       pod_status.Running,
 					},
 					"running_job1": {
-						NodeName:     "node1",
+						//NodeName:     "node1",
 						GPUsRequired: 2,
-						Status:       pod_status.Running,
-					},
-					"running_job2": {
-						GPUsRequired: 1,
 						Status:       pod_status.Pending,
 					},
-					"pending_job0": {
+					"running_job2": {
 						NodeName:     "node0",
+						GPUsRequired: 1,
+						Status:       pod_status.Running,
+					},
+					"pending_job0": {
+						NodeName:     "node1",
 						GPUsRequired: 1,
 						Status:       pod_status.Running,
 					},
@@ -3720,17 +3721,6 @@ func getReclaimTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 							},
 						},
 					}, {
-						Name:                "running_job2",
-						RequiredGPUsPerTask: 2,
-						Priority:            constants.PriorityTrainNumber,
-						QueueName:           "queue1",
-						Tasks: []*tasks_fake.TestTaskBasic{
-							{
-								NodeName: "node1",
-								State:    pod_status.Running,
-							},
-						},
-					}, {
 						Name:                "running_job3",
 						RequiredGPUsPerTask: 1,
 						Priority:            constants.PriorityTrainNumber,
@@ -3738,6 +3728,17 @@ func getReclaimTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 						Tasks: []*tasks_fake.TestTaskBasic{
 							{
 								NodeName: "node0",
+								State:    pod_status.Running,
+							},
+						},
+					}, {
+						Name:                "running_job2",
+						RequiredGPUsPerTask: 2,
+						Priority:            constants.PriorityTrainNumber,
+						QueueName:           "queue1",
+						Tasks: []*tasks_fake.TestTaskBasic{
+							{
+								NodeName: "node1",
 								State:    pod_status.Running,
 							},
 						},
@@ -3803,16 +3804,16 @@ func getReclaimTestsMetadata() []integration_tests_utils.TestTopologyMetadata {
 						Status:       pod_status.Running,
 					},
 					"running_job2": {
-						NodeName:     "node1",
 						GPUsRequired: 2,
-						Status:       pod_status.Running,
-					},
-					"running_job3": {
-						GPUsRequired: 1,
 						Status:       pod_status.Pending,
 					},
-					"pending_job0": {
+					"running_job3": {
 						NodeName:     "node0",
+						GPUsRequired: 1,
+						Status:       pod_status.Running,
+					},
+					"pending_job0": {
+						NodeName:     "node1",
 						GPUsRequired: 1,
 						Status:       pod_status.Running,
 					},

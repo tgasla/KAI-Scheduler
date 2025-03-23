@@ -21,6 +21,7 @@ import (
 	cp "github.com/NVIDIA/KAI-scheduler/pkg/scheduler/plugins/proportion/capacity_policy"
 	"github.com/NVIDIA/KAI-scheduler/pkg/scheduler/plugins/proportion/queue_order"
 	rec "github.com/NVIDIA/KAI-scheduler/pkg/scheduler/plugins/proportion/reclaimable"
+	"github.com/NVIDIA/KAI-scheduler/pkg/scheduler/plugins/proportion/reclaimjoborder"
 	"github.com/NVIDIA/KAI-scheduler/pkg/scheduler/plugins/proportion/resource_division"
 	rs "github.com/NVIDIA/KAI-scheduler/pkg/scheduler/plugins/proportion/resource_share"
 	"github.com/NVIDIA/KAI-scheduler/pkg/scheduler/plugins/proportion/utils"
@@ -62,6 +63,7 @@ func (pp *proportionPlugin) OnSessionOpen(ssn *framework.Session) {
 	ssn.AddQueueOrderFn(pp.queueOrder)
 	ssn.AddCanReclaimResourcesFn(pp.CanReclaimResourcesFn)
 	ssn.AddReclaimableFn(pp.reclaimableFn)
+	ssn.AddJobsComparatorByNodeStarvationFn(pp.JobsComparatorByNodeStarvation)
 	ssn.AddOnJobSolutionStartFn(pp.OnJobSolutionStartFn)
 	ssn.AddIsNonPreemptibleJobOverQueueQuotaFns(capacityPolicy.IsNonPreemptibleJobOverQuota)
 	ssn.AddIsJobOverCapacityFn(capacityPolicy.IsJobOverQueueCapacity)
@@ -92,6 +94,13 @@ func (pp *proportionPlugin) OnJobSolutionStartFn() {
 
 func (pp *proportionPlugin) CanReclaimResourcesFn(reclaimer *reclaimer_info.ReclaimerInfo) bool {
 	return pp.reclaimablePlugin.CanReclaimResources(pp.queues, reclaimer)
+}
+
+func (pp *proportionPlugin) JobsComparatorByNodeStarvation(
+	nodes map[string]*node_info.NodeInfo,
+	jobs map[common_info.PodGroupID]*podgroup_info.PodGroupInfo,
+) common_info.CompareFn {
+	return reclaimjoborder.JobsComparatorByNodeStarvation(pp.queues, nodes, jobs)
 }
 
 func (pp *proportionPlugin) reclaimableFn(

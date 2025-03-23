@@ -90,6 +90,12 @@ func (ra *reclaimAction) Execute(ssn *framework.Session) {
 func (ra *reclaimAction) attemptToReclaimForSpecificJob(
 	ssn *framework.Session, reclaimer *podgroup_info.PodGroupInfo, reclaimerInfo *reclaimer_info.ReclaimerInfo,
 ) (bool, *framework.Statement, []string) {
+	// Add a "by node starvation" order function
+	ssn.AddJobOrderFn(ssn.JobsComparatorByNodeStarvation(
+		ssn.Nodes, ssn.PodGroupInfos,
+	))
+	defer ssn.PopJobOrderFn()
+
 	queue := ssn.Queues[reclaimer.Queue]
 	resReq := podgroup_info.GetTasksToAllocateInitResource(reclaimer, ssn.TaskOrderFn, false)
 	log.InfraLogger.V(3).Infof("Attempting to reclaim for job: <%v/%v> of queue <%v>, resources: <%v>",

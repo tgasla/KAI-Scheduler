@@ -46,6 +46,7 @@ type Session struct {
 	QueueOrderFns                         []common_info.CompareTwoFactors
 	CanReclaimResourcesFns                []api.CanReclaimResourcesFn
 	ReclaimableFns                        []api.EvictableFn
+	JobsComparatorByNodeStarvationFns     []api.JobsComparatorByNodeStarvationFn
 	OnJobSolutionStartFns                 []api.OnJobSolutionStartFn
 	GetQueueAllocatedResourcesFns         []api.QueueResource
 	GetQueueDeservedResourcesFns          []api.QueueResource
