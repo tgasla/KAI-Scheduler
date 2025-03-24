@@ -32,7 +32,10 @@ func JobsComparatorByNodeStarvation(
 	for _, node := range nodes {
 		score := 0.0
 		for _, podInfo := range node.PodInfos {
-			score += queueOverAllocationScore[jobs[podInfo.Job].Queue] * podInfo.ResReq.GPUs()
+			podGpus := podInfo.ResReq.GPUs()
+			if podGpus > 0 && podInfo.Job != "" {
+				score += queueOverAllocationScore[jobs[podInfo.Job].Queue] * podGpus
+			}
 		}
 		nodeOverAllocationScore[node.Name] = score
 	}
