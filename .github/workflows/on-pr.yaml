@@ -96,7 +96,7 @@ jobs:
 
       - name: install KAI-scheduler
         env:
-          PACKAGE_VERSION: ${{ needs.test-build.outputs.package_version }}
+          PACKAGE_VERSION: ${{ needs.test-and-build.outputs.package_version }}
         run: |
           helm upgrade -i kai-scheduler ./images/kai-scheduler-$PACKAGE_VERSION.tgz -n kai-scheduler --create-namespace \
             --set "global.registry=${{ env.DOCKER_REGISTRY }}" --set "global.gpuSharing=true" --wait
