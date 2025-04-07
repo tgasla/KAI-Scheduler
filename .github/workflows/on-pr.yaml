@@ -94,11 +94,6 @@ jobs:
           helm upgrade -i gpu-operator fake-gpu-operator/fake-gpu-operator --namespace gpu-operator --create-namespace \
               --version 0.0.58 --values ./hack/fake-gpu-operator-values.yaml --wait
 
-      - name: Install 3rd party operators
-        run: |
-          ./hack/third_party_integrations/deploy_ray.sh
-          ./hack/third_party_integrations/deploy_kubeflow.sh
-
       - name: install KAI-scheduler
         env:
           PACKAGE_VERSION: ${{ needs.test-build.outputs.package_version }}
